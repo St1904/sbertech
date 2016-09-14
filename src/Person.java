@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Person {
     private final boolean man;
     private final String name;
@@ -28,32 +30,19 @@ public class Person {
      * @return - returns true if this person has another gender than passed person and they are not husband and wife, false otherwise
      */
     public boolean marry(Person person) {
-        if (person == null
-                || isMan() == person.isMan()
-                || getSpouse() == person) {
+        if (this.man != person.man && !this.spouse.equals(person)) { //TODO: null pointer
+            if (this.spouse != null) { // TODO: extra condition
+                this.divorce();
+            }
+            if (person.spouse != null) { // TODO: extra condition
+                person.divorce();
+            }
+            this.spouse = person;
+            person.spouse = this;
+            return true;
+        } else {
             return false;
         }
-
-        divorce();
-        person.divorce();
-
-        spouse = person;
-        person.spouse = this;
-        return true;
-
-//        if (this.man != person.man && !this.spouse.equals(person)) {
-//            if (this.spouse != null) {
-//                this.divorce();
-//            }
-//            if (person.spouse != null) {
-//                person.divorce();
-//            }
-//            this.spouse = person;
-//            person.spouse = this;
-//            return true;
-//        } else {
-//            return false;
-//        }
     }
 
     /**
@@ -78,6 +67,11 @@ public class Person {
 
         Person person = (Person) o;
 
+        //TODO: as shorter alternative approach
+//        return Objects.equals(man, person.man)
+//                && Objects.equals(name, person.name)
+//                && Objects.equals(spouse, person.spouse);
+
         if (man != person.man) return false;
         if (name != null ? !name.equals(person.name) : person.name != null) return false;
         if (spouse != null ? !spouse.equals(person.spouse) : person.spouse != null) return false;
@@ -90,6 +84,17 @@ public class Person {
         int result = (man ? 1 : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (spouse != null ? spouse.hashCode() : 0);
+
+        //TODO: as shorter alternative approach
+        //return Objects.hash(man, name, spouse);
+
         return result;
     }
 }
+
+//    //TODO: adequate checks are needed.
+//    //TODO: like this:
+//    Person manIgor = new Person(true,"Igor");
+//        if(manIgor.marry(null)){
+//                System.out.println("ERROR: manIgor.marry(null)");
+//                }
