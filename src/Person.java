@@ -30,7 +30,7 @@ public class Person {
      * @return - returns true if this person has another gender than passed person and they are not husband and wife, false otherwise
      */
     public boolean marry(Person person) {
-        if (this.man != person.man && !this.spouse.equals(person)) { //TODO: null pointer
+        if (!(person == null) && this.man != person.man && !this.spouse.equals(person)) { //TODO: null pointer
             if (this.spouse != null) { // TODO: extra condition
                 this.divorce();
             }
