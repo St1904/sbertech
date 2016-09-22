@@ -62,7 +62,7 @@ public class CollectionUtils {
         return result;
     }
 
-    public static<T> List<T> range(List<? extends T> list, T min, T max, Comparator<T> comparator) {
+    public static<T> List<T> range(List<? extends T> list, T min, T max, Comparator<? super T> comparator) {
         List<T> result = new ArrayList<>();
         for (T t : list) {
             if (comparator.compare(t, min) >= 0 && comparator.compare(t, max) <= 0) {
