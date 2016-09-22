@@ -3,7 +3,7 @@ package ru.sberbank.school.HomeTask4;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Main {
+public class MainCountMap {
     public static void main(String[] args) {
         //проверка add()
         CountMap<Integer> map = new CountMapImpl<>();
