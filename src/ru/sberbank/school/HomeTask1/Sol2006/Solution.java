@@ -1,4 +1,4 @@
-package ru.sberbank.school.Sol2006;
+package ru.sberbank.school.HomeTask1.Sol2006;
 
 import java.util.Scanner;
 

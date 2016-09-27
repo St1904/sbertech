@@ -1,4 +1,4 @@
-import java.util.Objects;
+package ru.sberbank.school.HomeTask2;
 
 public class Person {
     private final boolean man;

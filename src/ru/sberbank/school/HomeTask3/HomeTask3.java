@@ -1,4 +1,4 @@
-package ru.sberbank.school;
+package ru.sberbank.school.HomeTask3;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
