@@ -3,28 +3,34 @@ package ru.sberbank.school.HomeTask5;
 public class Main {
     public static void main(String[] args) throws InterruptedException{
         Terminal terminal = new TerminalImpl();
+        View view = new View();
 
         try {
             terminal.enterPin(1);
-        } catch (IncorrectPin e) {}
+        } catch (IncorrectPin e) {
+            view.show(e.getMessage());
+        }
         try {
             terminal.enterPin(1);
-        } catch (IncorrectPin e) {}
+        } catch (IncorrectPin e) {
+            view.show(e.getMessage());
+        }
 
         try {
             terminal.enterPin(1);
         } catch (AccountIsLockedException e) {
-            System.out.println(e.getMessage());
+            view.show(e.getMessage());
         }
         try {
             terminal.enterPin(1);
         } catch (AccountIsLockedException e) {
-            System.out.println(e.getMessage());
+            view.show(e.getMessage());
         }
+        Thread.sleep(2000);
         try {
             terminal.enterPin(1);
         } catch (AccountIsLockedException e) {
-            System.out.println(e.getMessage());
+            view.show(e.getMessage());
         }
 
         Thread.sleep(5000);
@@ -32,7 +38,7 @@ public class Main {
         try {
             terminal.enterPin(1);
         } catch (IncorrectPin e) {
-            System.out.println(e.getMessage());
+            view.show(e.getMessage());
         }
 
 
