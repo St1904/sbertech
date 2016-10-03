@@ -11,11 +11,11 @@ public class HomeTask3 {
 //        int count = countUniqueWords("C:\\tmp\\test.txt");
 //        System.out.println(count);
 
-//        Set<String> set = sortByLength("C:\\tmp\\test.txt");
+        Set<String> set = sortByLength("C:\\tmp\\test.txt");
 //        Set<String> set = sortByText("C:\\tmp\\test.txt");
-//        for (String s : set) {
-//            System.out.println(s);
-//        }
+        for (String s : set) {
+            System.out.println(s);
+        }
 
 //        Map<String, Integer> map = countWords("C:\\tmp\\test.txt");
 //        for (Map.Entry<String, Integer> entry : map.entrySet()) {
@@ -27,10 +27,10 @@ public class HomeTask3 {
 //            System.out.println(s);
 //        }
 
-        ArrayList<String> list = lineOrder("C:\\tmp\\test.txt", new int[]{2, 1});
-        for (String s : list) {
-            System.out.println(s);
-        }
+//        ArrayList<String> list = lineOrder("C:\\tmp\\test.txt", new int[]{2, 1});
+//        for (String s : list) {
+//            System.out.println(s);
+//        }
 
     }
 
@@ -58,7 +58,8 @@ public class HomeTask3 {
         Set<String> result = new TreeSet<>(new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
-                return o1.length() - o2.length(); //это нарушает работу TreeSet
+                int tmp = o1.length() - o2.length();
+                return tmp == 0 ? o1.compareTo(o2) : tmp;
             }
         });
 
@@ -79,26 +80,26 @@ public class HomeTask3 {
         return result;
     }
 
-    //сортировка уникальных слов по умолчанию
-    static Set<String> sortByText(String fileName) throws IOException {
-        Set<String> result = new TreeSet<>();
-
-        BufferedReader reader = new BufferedReader(new FileReader(fileName));
-
-        while (reader.ready()) {
-            String line = reader.readLine();
-            String[] words = line.split("\\s*(\\s|,|!|-|:|\\.|\\(|\\))\\s*");
-
-            for (String s : words) {
-                if (!s.equals("")) {
-                    result.add(s.toLowerCase());
-                }
-            }
-        }
-
-        reader.close();
-        return result;
-    }
+//    //сортировка уникальных слов по умолчанию
+//    static Set<String> sortByText(String fileName) throws IOException {
+//        Set<String> result = new TreeSet<>();
+//
+//        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+//
+//        while (reader.ready()) {
+//            String line = reader.readLine();
+//            String[] words = line.split("\\s*(\\s|,|!|-|:|\\.|\\(|\\))\\s*");
+//
+//            for (String s : words) {
+//                if (!s.equals("")) {
+//                    result.add(s.toLowerCase());
+//                }
+//            }
+//        }
+//
+//        reader.close();
+//        return result;
+//    }
 
     //подсчет количества уникальных слов
     static Map<String, Integer> countWords(String fileName) throws IOException {
@@ -139,22 +140,29 @@ public class HomeTask3 {
         return result;
     }
 
-/*    static class MyIterator implements Iterator<String> {
+    static class MyIterator implements Iterator<String> {
+        private int nextIndex;
+        private ArrayList<String> list;
+        public MyIterator(ArrayList<String> list) {
+            nextIndex = list.size() - 1;
+            this.list = list;
+        }
+
         @Override
         public boolean hasNext() {
-            return false;
+            return nextIndex >= 0;
         }
 
         @Override
         public String next() {
-            return null;
+            return list.get(nextIndex--);
         }
 
         @Override
         public void remove() {
-
+            list.remove(list.get(nextIndex));
         }
-    }*/
+    }
 
     //вывод строк по номерам, заданным пользователем
     static ArrayList<String> lineOrder(String fileName, int[] numbers) throws IOException{

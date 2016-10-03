@@ -35,7 +35,8 @@ public class TerminalImpl implements Terminal {
                 if (startLocking == null) {
                     startLocking = new Date();
                 }
-                throw new AccountIsLockedException("Счет будет разблокирован " + new Date(startLocking.getTime() + 5000).toString());
+                int timeLeft = (int) (startLocking.getTime() + 5000 - new Date().getTime()) / 1000;
+                throw new AccountIsLockedException("Счет будет разблокирован через " + timeLeft + " секунд.");
             }
         }
     }

@@ -52,7 +52,7 @@ public class CollectionUtils {
         return result;
     }
 
-    public static<T extends Comparable<T>> List range(List<? extends T> list, T min, T max) {
+    public static<T extends Comparable<? super T>> List<T> range(List<? extends T> list, T min, T max) {
         List<T> result = new ArrayList<>();
         for (T t : list) {
             if (t.compareTo(min) >= 0 && t.compareTo(max) <= 0) {
