@@ -1,5 +1,7 @@
 package ru.sberbank.school.HomeTask7;
 
 public interface Calculator {
-    int calc(int x);
+    @Cache
+    int plusOne(int x);
+    int minusOne(int x);
 }
