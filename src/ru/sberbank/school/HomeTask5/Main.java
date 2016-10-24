@@ -1,5 +1,7 @@
 package ru.sberbank.school.HomeTask5;
 
+
+//запуск из View
 public class Main {
     public static void main(String[] args) throws InterruptedException{
         Terminal terminal = new TerminalImpl();

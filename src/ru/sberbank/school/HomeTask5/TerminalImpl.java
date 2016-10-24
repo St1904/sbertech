@@ -9,7 +9,7 @@ public class TerminalImpl implements Terminal {
 
     private boolean pinCorrect;
     private int pinCount;
-    private Date startLocking;
+    private Date endLocking;
 
     TerminalImpl() {
         server = new TerminalServer();
@@ -20,36 +20,36 @@ public class TerminalImpl implements Terminal {
 
     @Override
     public void enterPin(int pin) throws IncorrectPin, AccountIsLockedException {
-        if (startLocking != null && new Date().getTime() > startLocking.getTime() + 5000) {
-            startLocking = null;
+        if (endLocking != null && new Date().getTime() > endLocking.getTime()) {
+            endLocking = null;
             pinCount = 0;
         }
 
-        if (pinValidator.check(pin) && startLocking == null) {
+        if (pinValidator.check(pin) && endLocking == null) {
             pinCorrect = true;
         } else {
             pinCount++;
             if (pinCount < 3) {
                 throw new IncorrectPin("Неверный пин!");
             } else {
-                if (startLocking == null) {
-                    startLocking = new Date();
+                if (endLocking == null) {
+                    endLocking = new Date(new Date().getTime() + 5000);
                 }
-                int timeLeft = (int) (startLocking.getTime() + 5000 - new Date().getTime()) / 1000;
+                int timeLeft = (int) (endLocking.getTime() - new Date().getTime()) / 1000;
                 throw new AccountIsLockedException("Счет будет разблокирован через " + timeLeft + " секунд.");
             }
         }
     }
 
     @Override
-    public int checkAccount() {
+    public int checkAccount() throws IncorrectPin {
         if (pinCorrect)
             return server.checkMoney();
         else throw new IncorrectPin("Для доступа к счету сначала введите пин.");
     }
 
     @Override
-    public void putMoney(int money) throws IncorrectAmount {
+    public void putMoney(int money) throws IncorrectAmount, IncorrectPin {
         if (pinCorrect) {
             if (money % 100 == 0)
                 server.putMoney(money);
@@ -59,11 +59,13 @@ public class TerminalImpl implements Terminal {
     }
 
     @Override
-    public void pullMoney(int money) throws IncorrectAmount {
+    public void pullMoney(int money) throws IncorrectAmount, IncorrectPin, NotEnoughMoney {
         if (pinCorrect) {
-            if (money % 100 == 0)
+            if (money % 100 == 0) {
+                if (server.checkMoney() < money)
+                    throw new NotEnoughMoney("Недостаточно денег на счете.");
                 server.pullMoney(money);
-            else
+            } else
                 throw new IncorrectAmount("Сумма должна быть кратна 100.");
         } else throw new IncorrectPin("Для доступа к счету сначала введите пин.");
     }
